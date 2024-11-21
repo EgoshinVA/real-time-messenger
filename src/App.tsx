@@ -4,7 +4,8 @@ import ButtonAppBar from "./components/buttonAppBar/ButtonAppBar";
 import TemporaryDrawer from "./components/temporaryDrawer/TemporaryDrawer";
 import {v1} from "uuid";
 import {ChatForm} from "./components/chatForm/ChatForm";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
+import {StartPage} from "./components/startPage/StartPage";
 
 export type MessageType = {
     id: string
@@ -19,6 +20,7 @@ export type MessagesType = {
 export type ChatType = {
     id: string
     title: string
+    ownerId: string
     usersIDs: string[]
     messages: MessagesType
 }
@@ -40,6 +42,7 @@ const initialState: ChatType[] = [
     {
         id: v1(),
         title: 'Global chat',
+        ownerId: myId,
         usersIDs: [userId1, userId2],
         messages: {
             [userId1]: [
@@ -55,6 +58,7 @@ const initialState: ChatType[] = [
     {
         id: v1(),
         title: 'My own chat',
+        ownerId: myId,
         usersIDs: [userId1, userId2],
         messages: {
             [userId1]: [
@@ -73,8 +77,8 @@ function App() {
     const [open, setOpen] = useState(false);
     const [chats, setChats] = useState<ChatType[]>(initialState)
 
-    const addChat = (title: string) => {
-        const newChat = {id: v1(), title, usersIDs: [], messages: {}}
+    const addChat = (title: string, ownerId: string) => {
+        const newChat = {id: v1(), title, ownerId, usersIDs: [ownerId], messages: {[ownerId]: []}}
         setChats([...chats, newChat])
     }
 
@@ -92,8 +96,9 @@ function App() {
     return (
         <div>
             <ButtonAppBar open={open} setOpen={setOpen}/>
-            <TemporaryDrawer open={open} chats={chats} setOpen={setOpen} addChat={addChat}/>
+            <TemporaryDrawer open={open} chats={chats} myId={myId} setOpen={setOpen} addChat={addChat}/>
             <Routes>
+                <Route path="/" element={<StartPage/>}/>
                 {chats.map(chat => <Route path={chat.id}
                                           element={<ChatForm chat={chat} myId={myId} addMessage={addMessage}/>}/>)}
             </Routes>

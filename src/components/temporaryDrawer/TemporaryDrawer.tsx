@@ -15,8 +15,9 @@ import {Link} from "react-router-dom";
 type TemporaryDrawerPropsType = {
     open: boolean
     chats: ChatType[]
+    myId: string
     setOpen: (open: boolean) => void
-    addChat: (title: string) => void
+    addChat: (title: string, ownerId: string) => void
 }
 
 export default function TemporaryDrawer(props: TemporaryDrawerPropsType) {
@@ -48,7 +49,7 @@ export default function TemporaryDrawer(props: TemporaryDrawerPropsType) {
         <div>
             <Drawer open={props.open} onClose={toggleDrawer(false)}>
                 {DrawerList}
-                <AddMessageForm onCLick={props.addChat}/>
+                <AddMessageForm onCLick={(title: string) => props.addChat(title, props.myId)}/>
             </Drawer>
         </div>
     );
