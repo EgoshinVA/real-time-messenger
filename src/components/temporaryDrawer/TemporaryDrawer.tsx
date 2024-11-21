@@ -10,6 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import MailIcon from '@mui/icons-material/Mail';
 import {ChatType} from "../../App";
 import {AddMessageForm} from "../addMessageForm/AddMessageForm";
+import {Link} from "react-router-dom";
 
 type TemporaryDrawerPropsType = {
     open: boolean
@@ -28,12 +29,14 @@ export default function TemporaryDrawer(props: TemporaryDrawerPropsType) {
             <List>
                 {props.chats.map(chat => (
                     <ListItem key={chat.id} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <MailIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary={chat.title}/>
-                        </ListItemButton>
+                        <Link to={chat.id} style={{textDecoration: 'none', color: 'inherit'}}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <MailIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary={chat.title}/>
+                            </ListItemButton>
+                        </Link>
                     </ListItem>
                 ))}
             </List>

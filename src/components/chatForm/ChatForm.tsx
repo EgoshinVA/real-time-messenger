@@ -7,7 +7,6 @@ import {AddMessageForm} from "../addMessageForm/AddMessageForm";
 type ChatFormPropsType = {
     chat: ChatType
     myId: string
-    chatId: string
     addMessage: (chatId: string, userId: string, message: string) => void
 }
 
@@ -37,7 +36,7 @@ export const ChatForm: React.FC<ChatFormPropsType> = (props) => {
         <div>
             <Container fixed>
                 {chats}
-                <AddMessageForm onCLick={(title: string) => props.addMessage(props.chatId, props.myId, title)}/>
+                <AddMessageForm onCLick={(title: string) => props.addMessage(props.chat.id, props.myId, title)}/>
             </Container>
         </div>
     )

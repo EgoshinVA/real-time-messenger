@@ -4,6 +4,7 @@ import ButtonAppBar from "./components/buttonAppBar/ButtonAppBar";
 import TemporaryDrawer from "./components/temporaryDrawer/TemporaryDrawer";
 import {v1} from "uuid";
 import {ChatForm} from "./components/chatForm/ChatForm";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 export type MessageType = {
     id: string
@@ -50,6 +51,21 @@ const initialState: ChatType[] = [
                 {id: '4', title: 'You second message', time: '22:15:22'},
             ],
         }
+    },
+    {
+        id: v1(),
+        title: 'My own chat',
+        usersIDs: [userId1, userId2],
+        messages: {
+            [userId1]: [
+                {id: '1', title: 'Hi!', time: '01:10:22'},
+                {id: '2', title: 'Can I call you now?', time: '01:12:50'},
+            ],
+            [userId2]: [
+                {id: '3', title: 'Hey bro!', time: '01:12:00'},
+                {id: '4', title: 'Yeah', time: '01:13:12'},
+            ],
+        }
     }
 ]
 
@@ -77,7 +93,10 @@ function App() {
         <div>
             <ButtonAppBar open={open} setOpen={setOpen}/>
             <TemporaryDrawer open={open} chats={chats} setOpen={setOpen} addChat={addChat}/>
-            <ChatForm chat={chats[0]} myId={myId} chatId={chats[0].id} addMessage={addMessage}/>
+            <Routes>
+                {chats.map(chat => <Route path={chat.id}
+                                          element={<ChatForm chat={chat} myId={myId} addMessage={addMessage}/>}/>)}
+            </Routes>
         </div>
     );
 }
