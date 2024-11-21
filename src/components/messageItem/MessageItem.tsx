@@ -4,7 +4,7 @@ import Chip from '@mui/material/Chip';
 import {styled} from "@mui/material/styles";
 
 type MessageItemPropsType = {
-    time: number
+    time: string
     title: string
     type: 'myMessage' | 'anotherMessage'
     avatarUrl: string
@@ -19,7 +19,12 @@ const StyledChip = styled(Chip)({
 
 export const MessageItem: React.FC<MessageItemPropsType> = (props) => {
     return (
-        <div style={{display: 'flex', alignItems: props.type === 'myMessage' ? 'flex-end' : 'flex-start', flexDirection: 'column', marginBottom: 2}}>
+        <div style={{
+            display: 'flex',
+            alignItems: props.type === 'myMessage' ? 'flex-end' : 'flex-start',
+            flexDirection: 'column',
+            marginBottom: 2
+        }}>
             {props.type === 'myMessage' ? <StyledChip
                 sx={{flexDirection: 'row-reverse'}}
                 avatar={<Avatar sx={{marginLeft: '-6px', marginRight: '5px'}} alt="Avatar" src={props.avatarUrl}/>}
@@ -30,6 +35,7 @@ export const MessageItem: React.FC<MessageItemPropsType> = (props) => {
                 label={props.title}
                 variant="filled"
             />}
+            <span style={{fontSize: 10}}>{props.time}</span>
         </div>
     );
 };

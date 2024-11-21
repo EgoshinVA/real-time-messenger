@@ -24,20 +24,20 @@ export default function TemporaryDrawer(props: TemporaryDrawerPropsType) {
     };
 
     const DrawerList = (
-        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+        <Box sx={{width: 250}} role="presentation" onClick={toggleDrawer(false)}>
             <List>
                 {props.chats.map(chat => (
                     <ListItem key={chat.id} disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
-                                <MailIcon />
+                                <MailIcon/>
                             </ListItemIcon>
-                            <ListItemText primary={chat.title} />
+                            <ListItemText primary={chat.title}/>
                         </ListItemButton>
                     </ListItem>
                 ))}
             </List>
-            <Divider />
+            <Divider/>
         </Box>
     );
 
@@ -45,7 +45,7 @@ export default function TemporaryDrawer(props: TemporaryDrawerPropsType) {
         <div>
             <Drawer open={props.open} onClose={toggleDrawer(false)}>
                 {DrawerList}
-                <AddMessageForm onCLick={props.addChat} />
+                <AddMessageForm onCLick={props.addChat}/>
             </Drawer>
         </div>
     );

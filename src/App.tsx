@@ -8,7 +8,7 @@ import {ChatForm} from "./components/chatForm/ChatForm";
 export type MessageType = {
     id: string
     title: string
-    time: number
+    time: string
 }
 
 export type MessagesType = {
@@ -35,9 +35,6 @@ const userId2 = v1()
 
 const myId = userId1
 
-const date = new Date();
-const showTime = date.getHours()
-
 const initialState: ChatType[] = [
     {
         id: v1(),
@@ -45,12 +42,12 @@ const initialState: ChatType[] = [
         usersIDs: [userId1, userId2],
         messages: {
             [userId1]: [
-                {id: '1', title: 'My first message', time: showTime},
-                {id: '2', title: 'My second message', time: showTime},
+                {id: '1', title: 'My first message', time: '22:14:45'},
+                {id: '2', title: 'My second message', time: '22:15:01'},
             ],
             [userId2]: [
-                {id: '3', title: 'You first message', time: showTime},
-                {id: '4', title: 'You second message', time: showTime},
+                {id: '3', title: 'You first message', time: '22:15:00'},
+                {id: '4', title: 'You second message', time: '22:15:22'},
             ],
         }
     }
@@ -64,6 +61,9 @@ function App() {
         const newChat = {id: v1(), title, usersIDs: [], messages: {}}
         setChats([...chats, newChat])
     }
+
+    const date = new Date();
+    const showTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 
     const addMessage = (chatId: string, userId: string, message: string) => {
         const newMessage = {id: v1(), title: message, time: showTime}

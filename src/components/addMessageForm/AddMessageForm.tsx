@@ -1,6 +1,13 @@
 import React, {ChangeEvent, useState} from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import DirectionsIcon from '@mui/icons-material/Directions';
 
 type AddMessageFormPropsType = {
     onCLick: (title: string) => void;
@@ -13,7 +20,7 @@ export const AddMessageForm: React.FC<AddMessageFormPropsType> = (props) => {
     const onHandleClick = () => {
         if (!title.trim()) {
             setError('Empty title')
-        } else{
+        } else {
             props.onCLick(title.trim())
             setTitle('')
         }
@@ -26,9 +33,18 @@ export const AddMessageForm: React.FC<AddMessageFormPropsType> = (props) => {
 
     return (
         <div>
-            <TextField size='small' error={!!error} value={title} onChange={onChange} label={error ? error : 'Type smth...'}
-                       variant="outlined"/>
-            <Button variant="contained" onClick={onHandleClick}>send</Button>
+            <Paper
+                elevation={6}
+                sx={{p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%'}}>
+                <InputBase
+                    sx={{ml: 1, flex: 1}}
+                    error={!!error} value={title} onChange={onChange} placeholder={error ? error : 'Type smth...'}
+                />
+                <Divider sx={{height: 28, m: 0.5}} orientation="vertical"/>
+                <IconButton color="primary" sx={{p: '10px'}} aria-label="directions" onClick={onHandleClick}>
+                    <DirectionsIcon/>
+                </IconButton>
+            </Paper>
         </div>
     );
 };
