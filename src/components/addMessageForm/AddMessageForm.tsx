@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import DirectionsIcon from '@mui/icons-material/Directions';
+import SendIcon from '@mui/icons-material/Send';
 
 type AddMessageFormPropsType = {
     onCLick: (title: string) => void;
@@ -27,6 +27,10 @@ export const AddMessageForm: React.FC<AddMessageFormPropsType> = (props) => {
         error && setError('')
     }
 
+    const onEnterClick = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        e.key === 'Enter' && onHandleClick()
+    }
+
     return (
         <div>
             <Paper
@@ -35,10 +39,11 @@ export const AddMessageForm: React.FC<AddMessageFormPropsType> = (props) => {
                 <InputBase
                     sx={{ml: 1, flex: 1}}
                     error={!!error} value={title} onChange={onChange} placeholder={error ? error : 'Type smth...'}
+                    onKeyPress={onEnterClick}
                 />
                 <Divider sx={{height: 28, m: 0.5}} orientation="vertical"/>
                 <IconButton color="primary" sx={{p: '10px'}} aria-label="directions" onClick={onHandleClick}>
-                    <DirectionsIcon/>
+                    <SendIcon/>
                 </IconButton>
             </Paper>
         </div>

@@ -1,13 +1,17 @@
 import React from 'react';
 import Container from '@mui/material/Container';
-import {ChatType} from "../../App";
+import {ChatType, UserType} from "../../App";
 import {MessageItem} from "../messageItem/MessageItem";
 import {AddMessageForm} from "../addMessageForm/AddMessageForm";
+import {UsersList} from "./UsersList";
+import {ChatJoin} from "./ChatJoin";
 
 type ChatFormPropsType = {
     chat: ChatType
     myId: string
+    users: UserType[]
     addMessage: (chatId: string, userId: string, message: string) => void
+    deleteUserFromChat: (chatId: string, userId: string) => void
 }
 
 export const ChatForm: React.FC<ChatFormPropsType> = (props) => {
@@ -32,12 +36,22 @@ export const ChatForm: React.FC<ChatFormPropsType> = (props) => {
                      avatarUrl={''}/> : <MessageItem
             type='anotherMessage' time={chat.time} title={chat.title} avatarUrl={''}/>)
 
+    const deleteUserFromChat = (userId: string) => {
+        props.deleteUserFromChat(props.chat.id, userId)
+    }
+
     return (
-        <div>
+        <div style={{display: 'flex'}}>
+
             <Container fixed>
                 {chats}
                 <AddMessageForm onCLick={(title: string) => props.addMessage(props.chat.id, props.myId, title)}/>
             </Container>
+
+            <UsersList users={props.users} isOwner={props.chat.ownerId === props.myId} myId={props.myId}
+                       deleteUserFromChat={deleteUserFromChat}/>
+
+
         </div>
     )
 }
