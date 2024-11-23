@@ -4,7 +4,6 @@ import {ChatType, UserType} from "../../App";
 import {MessageItem} from "../messageItem/MessageItem";
 import {AddMessageForm} from "../addMessageForm/AddMessageForm";
 import {UsersList} from "./UsersList";
-import {ChatJoin} from "./ChatJoin";
 
 type ChatFormPropsType = {
     chat: ChatType
@@ -42,7 +41,6 @@ export const ChatForm: React.FC<ChatFormPropsType> = (props) => {
 
     return (
         <div style={{display: 'flex'}}>
-
             <Container fixed>
                 {chats}
                 <AddMessageForm onCLick={(title: string) => props.addMessage(props.chat.id, props.myId, title)}/>
@@ -50,8 +48,6 @@ export const ChatForm: React.FC<ChatFormPropsType> = (props) => {
 
             <UsersList users={props.users} isOwner={props.chat.ownerId === props.myId} myId={props.myId}
                        deleteUserFromChat={deleteUserFromChat}/>
-
-
         </div>
     )
 }
