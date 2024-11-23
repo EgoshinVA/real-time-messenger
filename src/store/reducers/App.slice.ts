@@ -2,25 +2,27 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {v1} from "uuid";
 import {ChatType, UserType} from "../../App";
 
-type AppState = {
+type AppState = { //initial state type
     userId1: string,
     userId2: string,
     myId: string,
     open: boolean,
+    searchUserName: string,
     chats: ChatType[]
     users: UserType[]
 }
 
-const createInitialState = (): AppState => {
+const createInitialState = (): AppState => { //initial state for example
     const userId1 = v1()
     const userId2 = v1()
 
     return {
         userId1,
         userId2,
-        myId: userId1,
-        open: false,
-        chats: [
+        myId: userId1, // there is no login, so I used hardcode value of my id
+        open: false, // toggle value of drawer
+        searchUserName: '',
+        chats: [ // chats for example
             {
                 id: v1(),
                 title: 'Global chat',
@@ -50,7 +52,7 @@ const createInitialState = (): AppState => {
                 }
             }
         ],
-        users: [
+        users: [ // initial state of users
             {
                 id: userId1,
                 name: 'Vitaliy',
@@ -74,7 +76,6 @@ const createInitialState = (): AppState => {
             },
         ]
     }
-
 }
 
 export const appSlice = createSlice({
@@ -85,7 +86,7 @@ export const appSlice = createSlice({
             const title = action.payload.title
             const ownerId = action.payload.ownerId
             const newChat = {id: v1(), title, ownerId, usersIDs: [ownerId], messages: {[ownerId]: []}}
-            state.chats = [...state.chats, newChat]
+            state.chats = [...state.chats, newChat] // put new chat near all chats
         },
         addMessage: (state, action: PayloadAction<{ chatId: string, userId: string, message: string }>) => {
             const chatId = action.payload.chatId
@@ -97,7 +98,7 @@ export const appSlice = createSlice({
             state.chats = state.chats.map(chat => chat.id === chatId ? {
                 ...chat,
                 messages: {...chat.messages, [userId]: [...chat.messages[userId], newMessage]}
-            } : chat)
+            } : chat) // add new message to array messages in current chat
         },
         deleteUserFromChat: (state, action: PayloadAction<{ chatId: string, userId: string }>) => {
             const chatId = action.payload.chatId
@@ -105,7 +106,7 @@ export const appSlice = createSlice({
             state.chats = state.chats.map(chat => chat.id === chatId ? {
                 ...chat,
                 usersIDs: userId !== chat.ownerId ? chat.usersIDs.filter(u => u !== userId) : chat.usersIDs
-            } : chat)
+            } : chat) // delete user from array users of chat
         },
         joinChat: (state, action: PayloadAction<{ chatId: string, userId: string }>) => {
             const chatId = action.payload.chatId
@@ -114,14 +115,15 @@ export const appSlice = createSlice({
                 ...chat,
                 usersIDs: [...chat.usersIDs, userId],
                 messages: {...chat.messages, [userId]: []}
-            } : chat)
+            } : chat) // add array of messages for user and add user to users of chat
         },
         toggleOpen: (state) => {
-            state.open = !state.open
+            state.open = !state.open // open close drawer
+        },
+        changeSearchUserName: (state, action: PayloadAction<string>) => {
+            state.searchUserName = action.payload
         }
     },
 })
-
-export const {addChat} = appSlice.actions
 
 export default appSlice.reducer
