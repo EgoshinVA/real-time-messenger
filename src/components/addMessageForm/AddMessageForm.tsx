@@ -13,7 +13,7 @@ export const AddMessageForm: React.FC<AddMessageFormPropsType> = (props) => {
     const [title, setTitle] = useState<string>('');
     const [error, setError] = useState<string>('');
 
-    const onHandleClick = () => {
+    const onHandleClick = () => { // send title
         if (!title.trim()) {
             setError('Empty title')
         } else {
@@ -22,12 +22,12 @@ export const AddMessageForm: React.FC<AddMessageFormPropsType> = (props) => {
         }
     }
 
-    const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => { // change title value by typing
         setTitle(e.target.value)
         error && setError('')
     }
 
-    const onEnterClick = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const onEnterClick = (e: React.KeyboardEvent<HTMLDivElement>) => { // send title on Enter click
         e.key === 'Enter' && onHandleClick()
     }
 

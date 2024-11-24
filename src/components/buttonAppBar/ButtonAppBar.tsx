@@ -53,9 +53,13 @@ type ButtonAppBarPropsType = {
 export default function ButtonAppBar(props: ButtonAppBarPropsType) {
     const [title, setTitle] = useState('');
 
-    const changeSearchUserName = () => {
+    const changeSearchUserName = () => { // calling a search function
         props.changeSearchUserName(title)
         setTitle('');
+    }
+
+    const onEnterCLick = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        e.key === 'Enter' && changeSearchUserName() // calling a search function by Enter click
     }
 
     return (
@@ -90,6 +94,7 @@ export default function ButtonAppBar(props: ButtonAppBarPropsType) {
                             inputProps={{'aria-label': 'search'}}
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
+                            onKeyPress={onEnterCLick}
                         />
                         <Divider sx={{height: 28, m: 0.5}} orientation="vertical"/>
                         <Link to={'/users'}>

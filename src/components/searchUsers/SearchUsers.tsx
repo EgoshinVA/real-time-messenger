@@ -22,8 +22,7 @@ export const SearchUsers: React.FC<SearchUsersPropsType> = (props) => {
                 <h2>Users:</h2>
                 {filteredUsers.map(user => <ListItem
                         key={user.id}
-                        disablePadding
-                    >
+                        disablePadding>
                         <ListItemButton>
                             <ListItemAvatar>
                                 <Avatar

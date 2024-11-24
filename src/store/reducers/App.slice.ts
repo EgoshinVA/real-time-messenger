@@ -24,23 +24,23 @@ const createInitialState = (): AppState => { //initial state for example
         searchUserName: '',
         chats: [ // chats for example
             {
-                id: v1(),
+                id: 'first_chat_id',
                 title: 'Global chat',
                 ownerId: userId1,
                 usersIDs: [userId1, userId2],
                 messages: {
                     [userId1]: [
-                        {id: '1', title: 'My first message', time: '22:14:45'},
-                        {id: '2', title: 'My second message', time: '22:15:01'},
+                        {id: '1', title: 'My first message', time: '02:14:45'},
+                        {id: '2', title: 'My second message', time: '02:15:01'},
                     ],
                     [userId2]: [
-                        {id: '3', title: 'You first message', time: '22:15:00'},
-                        {id: '4', title: 'You second message', time: '22:15:22'},
+                        {id: '3', title: 'You first message', time: '02:15:00'},
+                        {id: '4', title: 'You second message', time: '02:15:22'},
                     ],
                 }
             },
             {
-                id: v1(),
+                id: 'second_chat_id',
                 title: 'My own chat',
                 ownerId: userId2,
                 usersIDs: [userId2],
@@ -82,13 +82,14 @@ export const appSlice = createSlice({
     name: 'app',
     initialState: createInitialState(),
     reducers: {
-        addChat: (state, action: PayloadAction<{ title: string, ownerId: string }>) => {
+        addChat: (state, action: PayloadAction<{ title: string, ownerId: string }>) => { // create new object in array of chats
             const title = action.payload.title
             const ownerId = action.payload.ownerId
             const newChat = {id: v1(), title, ownerId, usersIDs: [ownerId], messages: {[ownerId]: []}}
             state.chats = [...state.chats, newChat] // put new chat near all chats
         },
         addMessage: (state, action: PayloadAction<{ chatId: string, userId: string, message: string }>) => {
+            // add new message in array messages of current user and add user id to array of ids
             const chatId = action.payload.chatId
             const userId = action.payload.userId
             const message = action.payload.message
@@ -98,7 +99,7 @@ export const appSlice = createSlice({
             state.chats = state.chats.map(chat => chat.id === chatId ? {
                 ...chat,
                 messages: {...chat.messages, [userId]: [...chat.messages[userId], newMessage]}
-            } : chat) // add new message to array messages in current chat
+            } : chat)
         },
         deleteUserFromChat: (state, action: PayloadAction<{ chatId: string, userId: string }>) => {
             const chatId = action.payload.chatId
