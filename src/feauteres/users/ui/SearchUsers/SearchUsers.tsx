@@ -5,23 +5,24 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import {UserType} from "../../App";
-import Button from '@mui/material/Button';
+import {useAppSelector} from "../../../../common/hooks/hooks";
+import {selectSearchUserName} from "../../../../app/App.slice";
+import {selectUsers} from "../../model/userSLice";
 
-type ChatJoinPropsType = {
-    users: UserType[]
-    joinChat: () => void
-}
+export const SearchUsers = () => {
+    const users = useAppSelector(selectUsers)
+    const searchUserName = useAppSelector(selectSearchUserName)
 
-export const ChatJoin: React.FC<ChatJoinPropsType> = (props) => {
+    let filteredUsers = users;
+    filteredUsers = filteredUsers.filter(user => user.name.toLowerCase().includes(searchUserName.toLowerCase()))
+
     return (
         <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-            <h2>Chat users:</h2>
             <List dense sx={{width: '100%', maxWidth: 260, textAlign: 'center'}}>
-                {props.users.map(user => <ListItem
+                <h2>Users:</h2>
+                {filteredUsers.map(user => <ListItem
                         key={user.id}
-                        disablePadding
-                    >
+                        disablePadding>
                         <ListItemButton>
                             <ListItemAvatar>
                                 <Avatar
@@ -34,7 +35,6 @@ export const ChatJoin: React.FC<ChatJoinPropsType> = (props) => {
                     </ListItem>
                 )}
             </List>
-            <Button onClick={props.joinChat} variant="contained">Join chat</Button>
         </div>
     );
 };

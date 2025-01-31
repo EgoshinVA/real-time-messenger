@@ -5,24 +5,34 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import {UserType} from "../../App";
+import Button from '@mui/material/Button';
+import {useAppDispatch, useAppSelector} from "../../../../common/hooks/hooks";
+import {selectMyId} from "../../../../app/App.slice";
+import {ChatType, joinChat} from "../../model/chatSlice";
+import {selectUsers} from "../../../users/model/userSLice";
 
-type SearchUsersPropsType = {
-    users: UserType[]
-    name: string
+type Props = {
+    chat: ChatType
 }
 
-export const SearchUsers: React.FC<SearchUsersPropsType> = (props) => {
-    let filteredUsers = props.users;
-    filteredUsers = filteredUsers.filter(user => user.name.toLowerCase().includes(props.name.toLowerCase()))
+export const ChatJoin = ({chat}: Props) => {
+    const dispatch = useAppDispatch();
+
+    const users = useAppSelector(selectUsers).filter(u => chat.usersIDs.includes(u.id))
+    const myId = useAppSelector(selectMyId)
+
+    const handleJoinChat = () => {
+        dispatch(joinChat({chatId: chat.id, userId: myId}))
+    }
 
     return (
         <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+            <h2>Chat users:</h2>
             <List dense sx={{width: '100%', maxWidth: 260, textAlign: 'center'}}>
-                <h2>Users:</h2>
-                {filteredUsers.map(user => <ListItem
+                {users.map(user => <ListItem
                         key={user.id}
-                        disablePadding>
+                        disablePadding
+                    >
                         <ListItemButton>
                             <ListItemAvatar>
                                 <Avatar
@@ -35,6 +45,7 @@ export const SearchUsers: React.FC<SearchUsersPropsType> = (props) => {
                     </ListItem>
                 )}
             </List>
+            <Button onClick={handleJoinChat} variant="contained">Join chat</Button>
         </div>
     );
 };

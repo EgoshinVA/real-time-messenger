@@ -7,7 +7,9 @@ import Avatar from "@mui/material/Avatar";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import IconButton from "@mui/material/IconButton";
-import {UserType} from "../../App";
+
+
+import {UserType} from "../../../users/model/userSLice";
 
 type UsersListPropsType = {
     users: UserType[]

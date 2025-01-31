@@ -11,6 +11,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import {Link} from "react-router-dom";
 import Divider from "@mui/material/Divider";
+import {useAppDispatch} from "../../hooks/hooks";
+import {changeSearchUserName, toggleOpen} from "../../../app/App.slice";
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -44,22 +46,20 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     },
 }));
 
-type ButtonAppBarPropsType = {
-    open: boolean;
-    setOpen: (open: boolean) => void;
-    changeSearchUserName: (name: string) => void;
-}
-
-export default function ButtonAppBar(props: ButtonAppBarPropsType) {
+export const ButtonAppBar = () => {
     const [title, setTitle] = useState('');
 
-    const changeSearchUserName = () => { // calling a search function
-        props.changeSearchUserName(title)
-        setTitle('');
+    const dispatch = useAppDispatch();
+
+    const handleToggleOpen = () => {
+        dispatch(toggleOpen())
+    }
+    const handleChangeSearchUserName = () => {
+        dispatch(changeSearchUserName(title))
     }
 
     const onEnterCLick = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        e.key === 'Enter' && changeSearchUserName() // calling a search function by Enter click
+        e.key === 'Enter' && handleChangeSearchUserName() // calling a search function by Enter click
     }
 
     return (
@@ -72,7 +72,7 @@ export default function ButtonAppBar(props: ButtonAppBarPropsType) {
                         color="inherit"
                         aria-label="open drawer"
                         sx={{mr: 2}}
-                        onClick={() => props.setOpen(!props.open)}
+                        onClick={handleToggleOpen}
                     >
                         <MenuIcon/>
                     </IconButton>
@@ -98,7 +98,7 @@ export default function ButtonAppBar(props: ButtonAppBarPropsType) {
                         />
                         <Divider sx={{height: 28, m: 0.5}} orientation="vertical"/>
                         <Link to={'/users'}>
-                            <IconButton color="primary" sx={{p: '10px'}} aria-label="directions" onClick={changeSearchUserName}>
+                            <IconButton color="primary" sx={{p: '10px'}} aria-label="directions" onClick={handleChangeSearchUserName}>
                                 <SearchIcon/>
                             </IconButton>
                         </Link>
